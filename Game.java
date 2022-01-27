@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class Game {
     private static Board board;
     private static ArrayList<Player> players;
+    private static Dice dice;
 
     private static void initialiseBoard() {
         board = new Board();
@@ -20,11 +21,17 @@ public class Game {
         players.add(p2);
     }  
 
+    private static void initialiseDice() {
+        dice = new Dice();
+    }
+
     public static void main(String[] args) {
         initialiseBoard();
         initialisePlayers();
+        initialiseDice();
 
         System.out.println(board.getSquares());
         System.out.println(players);
+        System.out.println(dice.rollDice());
     }
 }

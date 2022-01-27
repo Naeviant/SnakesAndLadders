@@ -6,28 +6,6 @@ public class Game {
     private static int currentPlayerIndex;
     private static Dice dice;
 
-    private static void initialiseBoard() {
-        board = new Board();
-    }
-
-    private static void initialisePlayers() {
-        players = new ArrayList<Player>();
-        
-        Square startingSquare = board.getStartSquare();
-
-        Player p1 = new Player("Player 1", startingSquare);
-        Player p2 = new Player("Player 2", startingSquare);
-
-        players.add(p1);
-        players.add(p2);
-
-        currentPlayerIndex = 0;
-    }  
-
-    private static void initialiseDice() {
-        dice = new Dice();
-    }
-
     private static void advancePlayer() {
         Player player = getCurrentPlayer();
 
@@ -54,6 +32,12 @@ public class Game {
         }
     }
 
+    public static void addPlayer(String playerName) {
+        Square startingSquare = board.getStartSquare();
+        Player newPlayer = new Player(playerName, startingSquare);
+        players.add(newPlayer);
+    }
+
     public static Player getCurrentPlayer() {
         return players.get(currentPlayerIndex);
     }
@@ -67,8 +51,9 @@ public class Game {
     }
 
     public static void main(String[] args) {
-        initialiseBoard();
-        initialisePlayers();
-        initialiseDice();
+        board = new Board();
+        players = new ArrayList<Player>();
+        currentPlayerIndex = 0;
+        dice = new Dice();
     }
 }

@@ -8,7 +8,11 @@ public class Board {
     }
 
     public ArrayList<Square> getSquares() {
-        return squares;
+        return this.squares;
+    }
+
+    public Square getStartSquare() {
+        return this.getSquares().get(0);
     }
 
     private void generateSquares() {

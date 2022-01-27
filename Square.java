@@ -10,7 +10,7 @@ public class Square {
     }
 
     public SquareType getType() {
-        return type;
+        return this.type;
     }
     
     public void setType(SquareType type) {
@@ -18,7 +18,7 @@ public class Square {
     }
     
     public int getSquareNumber() {
-        return squareNumber;
+        return this.squareNumber;
     }
     
     public void setSquareNumber(int squareNumber) {
@@ -26,7 +26,7 @@ public class Square {
     }
     
     public int getTakesPlayerTo() {
-        return takesPlayerTo;
+        return this.takesPlayerTo;
     }
 
     public void setTakesPlayerTo(int takesPlayerTo) {

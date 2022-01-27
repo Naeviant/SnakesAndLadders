@@ -25,7 +25,7 @@ public class Game {
         return this.players.get(this.currentPlayerIndex);
     }
 
-    public void advancePlayer() {
+    public void takeTurn() {
         Player player = getCurrentPlayer();
 
         Square startSquare = player.getCurrentSquare();
@@ -60,9 +60,11 @@ public class Game {
                 GameTransmitter.transmitPlayerChasedBySnake(this.listeners, player, playerToSquare);
             }
         }
+
+        this.nextPlayer();
     }
 
-    public void nextPlayer() {
+    private void nextPlayer() {
         GameTransmitter.transmitPlayerEndsTurn(this.listeners, this.getCurrentPlayer());
 
         this.currentPlayerIndex += 1;

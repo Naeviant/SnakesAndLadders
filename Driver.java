@@ -36,8 +36,7 @@ public class Driver implements GameListener {
         game.addPlayer("Player 2");
 
         for (int i = 0; i < 20; i++) {
-            game.advancePlayer();
-            game.nextPlayer();
+            game.takeTurn();
         }
     }
 }

@@ -14,46 +14,46 @@ public class Game {
     }
 
     public void addPlayer(String playerName) {
-        Square startingSquare = board.getStartSquare();
+        Square startingSquare = this.board.getStartSquare();
         Player newPlayer = new Player(playerName, startingSquare);
-        players.add(newPlayer);
+        this.players.add(newPlayer);
     }
 
     public Player getCurrentPlayer() {
-        return players.get(currentPlayerIndex);
+        return this.players.get(this.currentPlayerIndex);
     }
-    
+
     private void advancePlayer() {
         Player player = getCurrentPlayer();
 
         Square startSquare = player.getCurrentSquare();
-        int startSquareIndex = board.getSquares().indexOf(startSquare);
+        int startSquareIndex = this.board.getSquares().indexOf(startSquare);
 
-        int diceRoll = dice.rollDice();
+        int diceRoll = this.dice.rollDice();
         
         int endSquareIndex = startSquareIndex + diceRoll;
 
-        if (!board.isIndexInBounds(endSquareIndex)) {
+        if (!this.board.isIndexInBounds(endSquareIndex)) {
             return;
         }
-        Square endSquare = board.getSquares().get(endSquareIndex);
+        Square endSquare = this.board.getSquares().get(endSquareIndex);
         SquareType endSquareType = endSquare.getType();
 
         player.setCurrentSquare(endSquare);
 
         if (endSquareType != SquareType.EMPTY) {
             int playerToIndex = endSquare.getTakesPlayerTo() - 1;
-            Square playerToSquare = board.getSquares().get(playerToIndex);
+            Square playerToSquare = this.board.getSquares().get(playerToIndex);
 
             player.setCurrentSquare(playerToSquare);
         }
     }
 
     public void nextPlayer() {
-        currentPlayerIndex += 1;
+        this.currentPlayerIndex += 1;
         
-        if (currentPlayerIndex > players.size() - 1) {
-            currentPlayerIndex = 0;
+        if (this.currentPlayerIndex > this.players.size() - 1) {
+            this.currentPlayerIndex = 0;
         }
     }
 }

@@ -1,3 +1,5 @@
+import java.text.MessageFormat;
+
 public class Square {
     private SquareType type;
     private int squareNumber;
@@ -46,6 +48,6 @@ public class Square {
     }
 
     public String toString() {
-        return String.valueOf(this.squareNumber);
+        return MessageFormat.format("Square {0} of type {1}", this.getSquareNumber(), this.getType());
     }
 }

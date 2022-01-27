@@ -30,8 +30,19 @@ public class Game {
         initialisePlayers();
         initialiseDice();
 
-        System.out.println(board.getSquares());
-        System.out.println(players);
+        System.out.println("Squares:");
+        board.getSquares().forEach(square -> {
+            System.out.println(square);
+        });
+
+        System.out.println("");
+        System.out.println("Players:");
+        players.forEach(player -> {
+            System.out.println(player);
+        });
+
+        System.out.println("");
+        System.out.println("Dice:");
         System.out.println(dice.rollDice());
     }
 }

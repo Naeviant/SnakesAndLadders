@@ -1,12 +1,29 @@
 import java.util.ArrayList;
 
 public class Game {
-    private static Board board;
-    private static ArrayList<Player> players;
-    private static int currentPlayerIndex;
-    private static Dice dice;
+    private Board board;
+    private ArrayList<Player> players;
+    private int currentPlayerIndex;
+    private Dice dice;
 
-    private static void advancePlayer() {
+    public Game() {
+        this.board = new Board();
+        this.players = new ArrayList<Player>();
+        this.currentPlayerIndex = 0;
+        this.dice = new Dice();
+    }
+
+    public void addPlayer(String playerName) {
+        Square startingSquare = board.getStartSquare();
+        Player newPlayer = new Player(playerName, startingSquare);
+        players.add(newPlayer);
+    }
+
+    public Player getCurrentPlayer() {
+        return players.get(currentPlayerIndex);
+    }
+    
+    private void advancePlayer() {
         Player player = getCurrentPlayer();
 
         Square startSquare = player.getCurrentSquare();
@@ -32,28 +49,11 @@ public class Game {
         }
     }
 
-    public static void addPlayer(String playerName) {
-        Square startingSquare = board.getStartSquare();
-        Player newPlayer = new Player(playerName, startingSquare);
-        players.add(newPlayer);
-    }
-
-    public static Player getCurrentPlayer() {
-        return players.get(currentPlayerIndex);
-    }
-
-    public static void nextPlayer() {
+    public void nextPlayer() {
         currentPlayerIndex += 1;
         
         if (currentPlayerIndex > players.size() - 1) {
             currentPlayerIndex = 0;
         }
-    }
-
-    public static void main(String[] args) {
-        board = new Board();
-        players = new ArrayList<Player>();
-        currentPlayerIndex = 0;
-        dice = new Dice();
     }
 }

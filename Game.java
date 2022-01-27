@@ -25,24 +25,33 @@ public class Game {
         dice = new Dice();
     }
 
+    private static void advancePlayer(Player player) {
+        Square startSquare = player.getCurrentSquare();
+        int startSquareIndex = board.getSquares().indexOf(startSquare);
+
+        int diceRoll = dice.rollDice();
+        
+        int endSquareIndex = startSquareIndex + diceRoll;
+
+        if (!board.isIndexInBounds(endSquareIndex)) {
+            return;
+        }
+        Square endSquare = board.getSquares().get(endSquareIndex);
+        SquareType endSquareType = endSquare.getType();
+
+        player.setCurrentSquare(endSquare);
+
+        if (endSquareType != SquareType.EMPTY) {
+            int playerToIndex = endSquare.getTakesPlayerTo() - 1;
+            Square playerToSquare = board.getSquares().get(playerToIndex);
+
+            player.setCurrentSquare(playerToSquare);
+        }
+    }
+
     public static void main(String[] args) {
         initialiseBoard();
         initialisePlayers();
         initialiseDice();
-
-        System.out.println("Squares:");
-        board.getSquares().forEach(square -> {
-            System.out.println(square);
-        });
-
-        System.out.println("");
-        System.out.println("Players:");
-        players.forEach(player -> {
-            System.out.println(player);
-        });
-
-        System.out.println("");
-        System.out.println("Dice:");
-        System.out.println(dice.rollDice());
     }
 }

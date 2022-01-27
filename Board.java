@@ -15,6 +15,13 @@ public class Board {
         return this.getSquares().get(0);
     }
 
+    public boolean isIndexInBounds(int index) {
+        if (index > this.getSquares().size() - 1) {
+            return false;
+        }
+        return true;
+    }
+
     private void generateSquares() {
         this.squares = new ArrayList<Square>();
 

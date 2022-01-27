@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class Game {
     private static Board board;
     private static ArrayList<Player> players;
+    private static int currentPlayerIndex;
     private static Dice dice;
 
     private static void initialiseBoard() {
@@ -19,13 +20,17 @@ public class Game {
 
         players.add(p1);
         players.add(p2);
+
+        currentPlayerIndex = 0;
     }  
 
     private static void initialiseDice() {
         dice = new Dice();
     }
 
-    private static void advancePlayer(Player player) {
+    private static void advancePlayer() {
+        Player player = getCurrentPlayer();
+
         Square startSquare = player.getCurrentSquare();
         int startSquareIndex = board.getSquares().indexOf(startSquare);
 
@@ -46,6 +51,18 @@ public class Game {
             Square playerToSquare = board.getSquares().get(playerToIndex);
 
             player.setCurrentSquare(playerToSquare);
+        }
+    }
+
+    public static Player getCurrentPlayer() {
+        return players.get(currentPlayerIndex);
+    }
+
+    public static void nextPlayer() {
+        currentPlayerIndex += 1;
+        
+        if (currentPlayerIndex > players.size() - 1) {
+            currentPlayerIndex = 0;
         }
     }
 

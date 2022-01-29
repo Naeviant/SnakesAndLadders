@@ -80,10 +80,26 @@ public class Game {
     }
 
     /**
-     * Make the current player take their turn. This will roll the dice and move the player.
+     * Get all players who are involved in this game.
+     * @return all players who are involved in this game
+     * @see ArrayList
+     * @see Player
      * @since 1.0.0
      */
-    public void takeTurn() {
+    public ArrayList<Player> getAllPlayers() {
+        return this.players;
+    }
+
+    /**
+     * Make the current player take their turn. This will roll the dice and move the player.
+     * @throws NotEnoughPlayersException if there are less than two players in the game
+     * @since 1.0.0
+     */
+    public void takeTurn() throws NotEnoughPlayersException {
+        if (this.getAllPlayers().size() < 2) {
+            throw new NotEnoughPlayersException();
+        }
+
         Player player = getCurrentPlayer();
 
         Square startSquare = player.getCurrentSquare();

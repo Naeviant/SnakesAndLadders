@@ -1,3 +1,5 @@
+package SnakesAndLadders;
+
 public interface GameListener {
     void onPlayerStartsTurn(Player player);
     void onPlayerRollsDice(Player player, int rollResult);

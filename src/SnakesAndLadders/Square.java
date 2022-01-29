@@ -1,3 +1,5 @@
+package SnakesAndLadders;
+
 import java.text.MessageFormat;
 
 public class Square {
@@ -5,7 +7,7 @@ public class Square {
     private int squareNumber;
     private int takesPlayerTo;
     
-    public Square(int squareNumber, int takesPlayerTo) {
+    protected Square(int squareNumber, int takesPlayerTo) {
         this.setType(determineSquareType(squareNumber, takesPlayerTo));
         this.setSquareNumber(squareNumber);
         this.setTakesPlayerTo(takesPlayerTo);
@@ -15,7 +17,7 @@ public class Square {
         return this.type;
     }
     
-    public void setType(SquareType type) {
+    protected void setType(SquareType type) {
         this.type = type;
     }
     
@@ -23,7 +25,7 @@ public class Square {
         return this.squareNumber;
     }
     
-    public void setSquareNumber(int squareNumber) {
+    protected void setSquareNumber(int squareNumber) {
         this.squareNumber = squareNumber;
     }
     
@@ -31,7 +33,7 @@ public class Square {
         return this.takesPlayerTo;
     }
 
-    public void setTakesPlayerTo(int takesPlayerTo) {
+    protected void setTakesPlayerTo(int takesPlayerTo) {
         this.takesPlayerTo = takesPlayerTo;
     }
 

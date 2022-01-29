@@ -1,8 +1,10 @@
+package SnakesAndLadders;
+
 public class Player {
     private String name;
     private Square currentSquare;
 
-    public Player(String name, Square currentSquare) {
+    protected Player(String name, Square currentSquare) {
         this.setName(name);
         this.setCurrentSquare(currentSquare);
     }
@@ -19,7 +21,7 @@ public class Player {
         return this.currentSquare;
     }
 
-    public void setCurrentSquare(Square currentSquare) {
+    protected void setCurrentSquare(Square currentSquare) {
         this.currentSquare = currentSquare;
     }
 

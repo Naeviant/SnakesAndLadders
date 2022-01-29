@@ -1,21 +1,23 @@
+package SnakesAndLadders;
+
 import java.util.ArrayList;
 
 public class Board {
     private ArrayList<Square> squares;
 
-    public Board() {
+    protected Board() {
         this.generateSquares();
     }
 
-    public ArrayList<Square> getSquares() {
+    protected ArrayList<Square> getSquares() {
         return this.squares;
     }
 
-    public Square getStartSquare() {
+    protected Square getStartSquare() {
         return this.getSquares().get(0);
     }
 
-    public boolean isIndexInBounds(int index) {
+    protected boolean isIndexInBounds(int index) {
         if (index > this.getSquares().size() - 1) {
             return false;
         }

@@ -1,13 +1,15 @@
+package SnakesAndLadders;
+
 import java.util.Random;
 
 public class Dice {
     private Random r;
 
-    public Dice() {
+    protected Dice() {
         r = new Random();
     }
 
-    public int rollDice() {
+    protected int rollDice() {
         return r.nextInt(6) + 1;
     }
 }

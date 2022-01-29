@@ -112,6 +112,7 @@ public class Game {
 
         if (!this.board.isIndexInBounds(endSquareIndex)) {
             GameTransmitter.transmitPlayerCannotProceed(this.listeners, player);
+            this.nextPlayer();
             return;
         }
 

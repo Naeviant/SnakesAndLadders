@@ -154,7 +154,9 @@ public class Game {
             throw new GameHasWinnerException();
         }
 
-        Player player = getCurrentPlayer();
+        Player player = this.getCurrentPlayer();
+
+        GameTransmitter.transmitPlayerStartsTurn(this.listeners, player);
 
         Square startSquare = player.getCurrentSquare();
         int startSquareIndex = this.board.getSquares().indexOf(startSquare);
@@ -210,8 +212,6 @@ public class Game {
         if (this.currentPlayerIndex > this.players.size() - 1) {
             this.currentPlayerIndex = 0;
         }
-
-        GameTransmitter.transmitPlayerStartsTurn(this.listeners, this.getCurrentPlayer());
     }
 
     /**

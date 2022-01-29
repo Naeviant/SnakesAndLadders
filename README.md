@@ -1,5 +1,7 @@
 # Snakes & Ladders
 
+[![Tests](https://github.com/Naeviant/SnakesAndLadders/actions/workflows/tests.yml/badge.svg)](https://github.com/Naeviant/SnakesAndLadders/actions/workflows/tests.yml)
+
 A game engine for the well-known board game *Snakes & Ladders*.
 
 Full documentation coming soon.

@@ -57,7 +57,7 @@ public class Square {
      * @see SquareType
      * @since 1.0.0
      */
-    protected void setType(SquareType type) {
+    private void setType(SquareType type) {
         this.type = type;
     }
     
@@ -75,7 +75,7 @@ public class Square {
      * @param squareNumber the new number of this square
      * @since 1.0.0
      */
-    protected void setSquareNumber(int squareNumber) {
+    private void setSquareNumber(int squareNumber) {
         this.squareNumber = squareNumber;
     }
     
@@ -93,7 +93,7 @@ public class Square {
      * @param takesPlayerTo the new number of the square where the player goes to if they land on this square
      * @since 1.0.0
      */
-    protected void setTakesPlayerTo(int takesPlayerTo) {
+    private void setTakesPlayerTo(int takesPlayerTo) {
         this.takesPlayerTo = takesPlayerTo;
     }
 

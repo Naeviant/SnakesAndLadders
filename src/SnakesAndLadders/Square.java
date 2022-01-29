@@ -36,9 +36,9 @@ public class Square {
      * @since 1.0.0
      */
     protected Square(int squareNumber, int takesPlayerTo) {
-        this.setType(determineSquareType(squareNumber, takesPlayerTo));
         this.setSquareNumber(squareNumber);
         this.setTakesPlayerTo(takesPlayerTo);
+        this.setType(determineSquareType());
     }
 
     /**
@@ -99,13 +99,14 @@ public class Square {
 
     /**
      * Determines what type of square this is, given its number and the number of the square where the player goes to if they land on this square
-     * @param squareNumber the number of this square
-     * @param takesPlayerTo the number of the square where the player goes to if they land on this square
      * @return the type of this square.
      * @see SquareType
      * @since 1.0.0
      */
-    private SquareType determineSquareType(int squareNumber, int takesPlayerTo) {
+    private SquareType determineSquareType() {
+        int squareNumber = this.getSquareNumber();
+        int takesPlayerTo = this.getTakesPlayerTo();
+
         if (squareNumber == takesPlayerTo) {
             return SquareType.EMPTY;
         }

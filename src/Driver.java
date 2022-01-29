@@ -51,7 +51,7 @@ public class Driver implements GameListener {
 
             game.start();
     
-            for (int i = 0; i < 50; i++) {
+            while (!game.hasBeenWon()) {
                 game.takeTurn();
             }
         } catch (NotEnoughPlayersException e) {

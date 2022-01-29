@@ -39,6 +39,12 @@ public class Game {
     private Dice dice;
 
     /**
+     * If the game is in progress.
+     * @since 1.0.0
+     */
+    private boolean inProgress;
+
+    /**
      * The registered listeners for the game.
      * @see ArrayList
      * @see GameListener
@@ -56,15 +62,21 @@ public class Game {
         this.players = new ArrayList<Player>();
         this.currentPlayerIndex = 0;
         this.dice = new Dice();
+        this.inProgress = false;
         this.listeners = new ArrayList<GameListener>();
     }
 
     /**
      * Add a new player to the game.
      * @param playerName the name of the new player
+     * @throws GameInProgressException if the game has already started
      * @since 1.0.0
      */
-    public void addPlayer(String playerName) {
+    public void addPlayer(String playerName) throws GameInProgressException {
+        if (this.isInProgress()) {
+            throw new GameInProgressException("Players can only be added before the game starts.");
+        }
+
         Square startingSquare = this.board.getStartSquare();
         Player newPlayer = new Player(playerName, startingSquare);
         this.players.add(newPlayer);
@@ -91,13 +103,37 @@ public class Game {
     }
 
     /**
-     * Make the current player take their turn. This will roll the dice and move the player.
+     * Get whether or not the game is in progress.
+     * @return true if the game is in progress, false otherwise
+     */
+    public boolean isInProgress() {
+        return this.inProgress;
+    }
+
+    /**
+     * Begin the game.
      * @throws NotEnoughPlayersException if there are less than two players in the game
+     * @throws GameInProgressException if the game has already started
      * @since 1.0.0
      */
-    public void takeTurn() throws NotEnoughPlayersException {
+    public void start() throws NotEnoughPlayersException, GameInProgressException {
         if (this.getAllPlayers().size() < 2) {
             throw new NotEnoughPlayersException();
+        }
+        if (this.isInProgress()) {
+            throw new GameInProgressException("The game has already started.");
+        }
+        this.inProgress = true;
+    }
+
+    /**
+     * Make the current player take their turn. This will roll the dice and move the player.
+     * @throws GameNotStartedException if the game has not started yet
+     * @since 1.0.0
+     */
+    public void takeTurn() throws GameNotStartedException {
+        if (!this.isInProgress()) {
+            throw new GameNotStartedException();
         }
 
         Player player = getCurrentPlayer();

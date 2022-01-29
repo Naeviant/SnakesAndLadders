@@ -1,5 +1,7 @@
 import SnakesAndLadders.Game;
+import SnakesAndLadders.GameInProgressException;
 import SnakesAndLadders.GameListener;
+import SnakesAndLadders.GameNotStartedException;
 import SnakesAndLadders.NotEnoughPlayersException;
 import SnakesAndLadders.Player;
 import SnakesAndLadders.Square;
@@ -45,11 +47,17 @@ public class Driver implements GameListener {
     
             game.addPlayer("Player 1");
             game.addPlayer("Player 2");
+
+            game.start();
     
             for (int i = 0; i < 50; i++) {
                 game.takeTurn();
             }
         } catch (NotEnoughPlayersException e) {
+            e.printStackTrace();
+        } catch (GameNotStartedException e) {
+            e.printStackTrace();
+        } catch (GameInProgressException e) {
             e.printStackTrace();
         }
     }

@@ -6,6 +6,20 @@ import org.junit.Test;
 
 public class SquareTest {
     @Test
+    public void testGettingSquareNumber() {
+        Square square = new Square(1, 2);
+        
+        assertTrue(square.getSquareNumber() == 1);
+    }
+
+    @Test
+    public void testGettingSquarePlayerTakenTo() {
+        Square square = new Square(1, 2);
+        
+        assertTrue(square.getTakesPlayerTo() == 2);
+    }
+
+    @Test
     public void testEmptySquareType() {
         Square emptySquare = new Square(1, 1);
         

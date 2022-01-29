@@ -47,6 +47,16 @@ public class Board {
     }
 
     /**
+     * Get a Square object which represents the square on the board where players win.
+     * @return a Square object which represents the square on the board where players win
+     * @see Square
+     * @since 1.0.0
+     */
+    protected Square getLastSquare() {
+        return this.getSquares().get(99);
+    }
+
+    /**
      * Check if a square number is within the bounds of the game board.
      * @param number the number of the square to check
      * @return true if the square is in bounds, false otherwise

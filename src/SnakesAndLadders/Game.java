@@ -121,6 +121,10 @@ public class Game {
         player.setCurrentSquare(endSquare);
         GameTransmitter.transmitPlayerLandsOnSquare(this.listeners, player, endSquare);
 
+        if (this.board.getLastSquare().equals(endSquare)) {
+            GameTransmitter.transmitPlayerWins(this.listeners, player);
+        }
+
         if (endSquareType != SquareType.EMPTY) {
             int playerToIndex = endSquare.getTakesPlayerTo() - 1;
             Square playerToSquare = this.board.getSquares().get(playerToIndex);

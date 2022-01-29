@@ -33,6 +33,10 @@ public class Driver implements GameListener {
         System.out.println("");
     }
 
+    public void onPlayerWins(Player player) {
+        System.out.println(player + " wins!");
+    }
+
     public static void main(String[] args) {
         try {
             Driver driver = new Driver();
@@ -42,7 +46,7 @@ public class Driver implements GameListener {
             game.addPlayer("Player 1");
             game.addPlayer("Player 2");
     
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < 50; i++) {
                 game.takeTurn();
             }
         } catch (NotEnoughPlayersException e) {

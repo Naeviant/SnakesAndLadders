@@ -63,4 +63,11 @@ public interface GameListener {
      * @see Player
      */
     void onPlayerEndsTurn(Player player);
+
+    /**
+     * Called whenever a player reaches the final square and wins.
+     * @param player the player who has won
+     * @see Player
+     */
+    void onPlayerWins(Player player);
 }

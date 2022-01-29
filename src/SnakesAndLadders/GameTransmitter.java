@@ -124,4 +124,19 @@ public final class GameTransmitter {
             listener.onPlayerEndsTurn(player);
         }
     }
+
+    /**
+     * Notifies listeners that a player has won.
+     * @param listeners the list of registered listeners
+     * @param player the player who has won
+     * @see java.util.ArrayList
+     * @see GameListener
+     * @see Player
+     * @since 1.0.0
+     */
+    protected static void transmitPlayerWins(ArrayList<GameListener> listeners, Player player) {
+        for (GameListener listener : listeners) {
+            listener.onPlayerWins(player);
+        }
+    }
 }

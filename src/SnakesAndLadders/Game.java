@@ -166,7 +166,7 @@ public class Game {
         
         int endSquareIndex = startSquareIndex + diceRoll;
 
-        if (!this.board.isIndexInBounds(endSquareIndex)) {
+        if (!this.board.isIndexInBounds(endSquareIndex + 1)) {
             GameTransmitter.transmitPlayerCannotProceed(this.listeners, player);
             this.nextPlayer();
             return;

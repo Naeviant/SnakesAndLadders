@@ -63,7 +63,7 @@ public class Board {
      * @since 1.0.0
      */
     protected boolean isIndexInBounds(int number) {
-        if (number > this.getSquares().size() - 1) {
+        if (number > this.getSquares().size() || number < 1) {
             return false;
         }
         return true;

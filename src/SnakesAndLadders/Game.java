@@ -158,13 +158,19 @@ public class Game {
 
         GameTransmitter.transmitPlayerStartsTurn(this.listeners, player);
 
-        Square startSquare = player.getCurrentSquare();
-        int startSquareIndex = this.board.getSquares().indexOf(startSquare);
+        movePlayer();
 
-        int diceRoll = this.dice.rollDice();
-        GameTransmitter.transmitPlayerRollsDice(this.listeners, player, diceRoll);
-        
-        int endSquareIndex = startSquareIndex + diceRoll;
+        this.nextPlayer();
+    }
+
+    /**
+     * Move the player.
+     * @since 1.0.0
+     */
+    private void movePlayer() {
+        Player player = this.getCurrentPlayer();
+
+        int endSquareIndex = calculateNextSquareIndex();
 
         if (!this.board.isIndexInBounds(endSquareIndex + 1)) {
             GameTransmitter.transmitPlayerCannotProceed(this.listeners, player);
@@ -184,20 +190,48 @@ public class Game {
         }
 
         if (endSquareType != SquareType.EMPTY) {
-            int playerToIndex = endSquare.getTakesPlayerTo() - 1;
-            Square playerToSquare = this.board.getSquares().get(playerToIndex);
-
-            player.setCurrentSquare(playerToSquare);
-
-            if (endSquareType == SquareType.LADDER) {
-                GameTransmitter.transmitPlayerClimbsLadder(this.listeners, player, playerToSquare);
-            }
-            if (endSquareType == SquareType.SNAKE) {
-                GameTransmitter.transmitPlayerChasedBySnake(this.listeners, player, playerToSquare);
-            }
+            handleSnakesAndLadders();
         }
+    }
 
-        this.nextPlayer();
+    /**
+     * Calculate the index of the square which the player should move to next.
+     * @return the index of the square which the player should move to next
+     * @since 1.0.0
+     */
+    private int calculateNextSquareIndex() {
+        Player player = this.getCurrentPlayer();
+
+        Square startSquare = player.getCurrentSquare();
+        int startSquareIndex = this.board.getSquares().indexOf(startSquare);
+
+        int diceRoll = this.dice.rollDice();
+        GameTransmitter.transmitPlayerRollsDice(this.listeners, player, diceRoll);
+        
+        int endSquareIndex = startSquareIndex + diceRoll;
+        return endSquareIndex;
+    }
+
+    /**
+     * Moves a player up a ladder or down a snake.
+     * @since 1.0.0
+     */
+    private void handleSnakesAndLadders() {
+        Player player = this.getCurrentPlayer();
+        Square endSquare = this.getCurrentPlayer().getCurrentSquare();
+        SquareType endSquareType = this.getCurrentPlayer().getCurrentSquare().getType();
+
+        int playerToIndex = endSquare.getTakesPlayerTo() - 1;
+        Square playerToSquare = this.board.getSquares().get(playerToIndex);
+
+        player.setCurrentSquare(playerToSquare);
+
+        if (endSquareType == SquareType.LADDER) {
+            GameTransmitter.transmitPlayerClimbsLadder(this.listeners, player, playerToSquare);
+        }
+        if (endSquareType == SquareType.SNAKE) {
+            GameTransmitter.transmitPlayerChasedBySnake(this.listeners, player, playerToSquare);
+        }
     }
 
     /**

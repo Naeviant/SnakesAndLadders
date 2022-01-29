@@ -1,4 +1,5 @@
 import SnakesAndLadders.Game;
+import SnakesAndLadders.GameHasWinnerException;
 import SnakesAndLadders.GameInProgressException;
 import SnakesAndLadders.GameListener;
 import SnakesAndLadders.GameNotStartedException;
@@ -58,6 +59,8 @@ public class Driver implements GameListener {
         } catch (GameNotStartedException e) {
             e.printStackTrace();
         } catch (GameInProgressException e) {
+            e.printStackTrace();
+        } catch (GameHasWinnerException e) {
             e.printStackTrace();
         }
     }

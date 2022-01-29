@@ -45,6 +45,12 @@ public class Game {
     private boolean inProgress;
 
     /**
+     * If the game has been won.
+     * @since 1.0.0
+     */
+    private boolean beenWon;
+
+    /**
      * The registered listeners for the game.
      * @see ArrayList
      * @see GameListener
@@ -111,6 +117,14 @@ public class Game {
     }
 
     /**
+     * Get whether or not the game has been won.
+     * @return true if the game has been won, false otherwise
+     */
+    public boolean hasBeenWon() {
+        return this.beenWon;
+    }
+
+    /**
      * Begin the game.
      * @throws NotEnoughPlayersException if there are less than two players in the game
      * @throws GameInProgressException if the game has already started
@@ -129,11 +143,15 @@ public class Game {
     /**
      * Make the current player take their turn. This will roll the dice and move the player.
      * @throws GameNotStartedException if the game has not started yet
+     * @throws GameHasWinnerException if the game already has a winner
      * @since 1.0.0
      */
-    public void takeTurn() throws GameNotStartedException {
+    public void takeTurn() throws GameNotStartedException, GameHasWinnerException {
         if (!this.isInProgress()) {
             throw new GameNotStartedException();
+        }
+        if (this.hasBeenWon()) {
+            throw new GameHasWinnerException();
         }
 
         Player player = getCurrentPlayer();
@@ -159,6 +177,7 @@ public class Game {
         GameTransmitter.transmitPlayerLandsOnSquare(this.listeners, player, endSquare);
 
         if (this.board.getLastSquare().equals(endSquare)) {
+            this.beenWon = true;
             GameTransmitter.transmitPlayerWins(this.listeners, player);
         }
 

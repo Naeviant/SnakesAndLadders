@@ -177,6 +177,38 @@ public class Game {
         if (this.isInProgress()) {
             throw new GameInProgressException("The game has already started.");
         }
+
+        int numberOfDice = (int) Math.ceil((this.getAllPlayers().size() - 1) / 5.0);
+
+        GameTransmitter.transmitDecidingPlayerOrder(listeners, numberOfDice);
+
+        int maxRoll = numberOfDice * 6;
+        Player[] order = new Player[maxRoll];
+        Dice dice = new Dice();
+
+        for (Player player : this.getAllPlayers()) {
+            while (true) {
+                int roll = 0;
+                for (int i = 0; i < numberOfDice; i++) {
+                    roll += dice.rollDice();
+                }
+
+                if (order[roll - 1] == null) {
+                    order[roll - 1] = player;
+                    GameTransmitter.transmitPlayerInitialRoll(listeners, player, roll);
+                    break;
+                }
+            }
+        }
+
+        this.players.clear();
+        for (int i = maxRoll - 1; i >= 0; i--) {
+            if (order[i] != null) {
+                this.players.add(order[i]);
+            }
+        }
+
+        GameTransmitter.trasmitDecidedPlayerOrder(listeners, this.players);
         this.inProgress = true;
     }
 

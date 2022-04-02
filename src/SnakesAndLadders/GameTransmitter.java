@@ -14,6 +14,50 @@ public final class GameTransmitter {
     private GameTransmitter() {}
 
     /**
+     * Notifies listeners that players will roll some dice to determine the player order.
+     * @param listeners the list of registered listeners
+     * @param rollResult the number of dice each player will roll
+     * @see java.util.ArrayList
+     * @see GameListener
+     * @since 1.1.0
+     */
+    protected static void transmitDecidingPlayerOrder(ArrayList<GameListener> listeners, int numberOfDice) {
+        for (GameListener listener : listeners) {
+            listener.onDecidingPlayerOrder(numberOfDice);
+        }
+    }
+
+    /**
+     * Notifies listeners that the player order has been decided.
+     * @param listeners the list of registered listeners
+     * @param playerOrder the list of players in the order that they will play
+     * @see java.util.ArrayList
+     * @see GameListener
+     * @since 1.1.0
+     */
+    protected static void trasmitDecidedPlayerOrder(ArrayList<GameListener> listeners, ArrayList<Player> playerOrder) {
+        for (GameListener listener : listeners) {
+            listener.onDecidedPlayerOrder(playerOrder);
+        }
+    }
+
+    /**
+     * Notifies listeners that a player has rolled the dice to determine the order of play.
+     * @param listeners the list of registered listeners
+     * @param player the player who rolled the dice
+     * @param rollResult the result of the dice roll
+     * @see java.util.ArrayList
+     * @see GameListener
+     * @see Player
+     * @since 1.1.0
+     */
+    protected static void transmitPlayerInitialRoll(ArrayList<GameListener> listeners, Player player, int rollResult) {
+        for (GameListener listener : listeners) {
+            listener.onPlayerRollsDice(player, rollResult);
+        }
+    }
+
+    /**
      * Notifies listeners that a player has started their turn.
      * @param listeners the list of registered listeners
      * @param player the player whose turn has started

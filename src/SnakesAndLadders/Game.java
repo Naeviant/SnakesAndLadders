@@ -90,11 +90,20 @@ public class Game {
      * Create a new game of Snakes and Ladders with custom game rules, but default snakes and ladders placement.
      * @param rollAgainOnSix if players get a second roll when scoring a six.
      * @param bounceBack if players bounce back when their roll takes them off the end of the board
+     * @since 1.1.0
      */
     public Game(boolean rollAgainOnSix, boolean bounceBack) {
         this(rollAgainOnSix, bounceBack, null);
     }
 
+    /**
+     * Create a new game of Snakes and Ladders with custom game rules and custom snakes and ladders placement.
+     * @see java.util.Map
+     * @param rollAgainOnSix if players get a second roll when scoring a six.
+     * @param bounceBack if players bounce back when their roll takes them off the end of the board
+     * @param movePlayerTo a map of squares where players are moved to when they land on a square (implements snakes and ladders)
+     * @since 1.1.0
+     */
     public Game(boolean rollAgainOnSix, boolean bounceBack, Map<Integer, Integer> movePlayerTo) {
         this.board = new Board(movePlayerTo);
         this.rollAgainOnSix = rollAgainOnSix;

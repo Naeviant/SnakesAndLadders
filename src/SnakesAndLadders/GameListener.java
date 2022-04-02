@@ -3,7 +3,7 @@ package SnakesAndLadders;
 /**
  * Defines the methods which a class must implement to use the SnakesAndLadders package.
  * @author Sam Hirst
- * @version 1.0.0
+ * @version 1.1.0
  * @since 1.0.0
  */
 public interface GameListener {

@@ -3,7 +3,7 @@ package SnakesAndLadders;
 /**
  * Represents a player in the game.
  * @author Sam Hirst
- * @version 1.0.0
+ * @version 1.1.0
  * @since 1.0.0
  */
 public class Player {

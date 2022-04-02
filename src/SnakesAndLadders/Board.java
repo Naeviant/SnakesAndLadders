@@ -1,14 +1,12 @@
 package SnakesAndLadders;
 
-import java.beans.PropertyEditor;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Represents the board that the game is played on.
  * @author Sam Hirst
- * @version 1.0.0
+ * @version 1.1.0
  * @since 1.0.0
  * {@link java.util.ArrayList}.
  */
@@ -33,6 +31,7 @@ public class Board {
     /**
      * Generate a new board.
      * @see #generateSquares()
+     * @see java.util.Map
      * @param movePlayerTo a map of squares where players are moved to when they land on a square (implements snakes and ladders)
      * @since 1.1.0
      */

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Calls event methods in any registered GameListeners.
  * @author Sam Hirst
- * @version 1.0.0
+ * @version 1.1.0
  * @see GameListener
  * @since 1.0.0
  */

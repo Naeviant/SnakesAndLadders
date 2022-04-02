@@ -5,7 +5,7 @@ import java.text.MessageFormat;
 /**
  * Represents a square which makes up part of the board that the game is played on.
  * @author Sam Hirst
- * @version 1.0.0
+ * @version 1.1.0
  * @see Board
  * @since 1.0.0
  */

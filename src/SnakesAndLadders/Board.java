@@ -1,6 +1,7 @@
 package SnakesAndLadders;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -19,6 +20,13 @@ public class Board {
     private ArrayList<Square> squares;
 
     /**
+     * A map of squares where players are moved to when they land on a square (implements snakes and ladders)
+     * @see java.util.Map
+     * @since 1.1.0
+     */
+    private Map<Integer, Integer> movePlayerTo;
+
+    /**
      * Generate a new board.
      * @see #generateSquares()
      * @see java.util.Map
@@ -26,6 +34,23 @@ public class Board {
      * @since 1.1.0
      */
     protected Board(Map<Integer, Integer> movePlayerTo) {
+        if (movePlayerTo == null) {
+            this.movePlayerTo = new HashMap<Integer, Integer>();
+            this.movePlayerTo.put(4, 56);
+            this.movePlayerTo.put(12, 50);
+            this.movePlayerTo.put(14, 56);
+            this.movePlayerTo.put(22, 58);
+            this.movePlayerTo.put(37, 3);
+            this.movePlayerTo.put(41, 79);
+            this.movePlayerTo.put(47, 16);
+            this.movePlayerTo.put(54, 88);
+            this.movePlayerTo.put(75, 32);
+            this.movePlayerTo.put(94, 71);
+            this.movePlayerTo.put(96, 42);
+        } else {
+            this.movePlayerTo = movePlayerTo;
+        }
+
         this.generateSquares();
     }
 
@@ -98,31 +123,10 @@ public class Board {
      * @since 1.0.0
      */
     private int getMovePlayerTo(int number) {
-        switch (number) {
-            case 4:
-                return 56;
-            case 12:
-                return 50;
-            case 14:
-                return 55;
-            case 22:
-                return 58;
-            case 37:
-                return 3;
-            case 41:
-                return 79;
-            case 47:
-                return 16;
-            case 54:
-                return 88;
-            case 75:
-                return 32;
-            case 94:
-                return 71;
-            case 96:
-                return 42;
-            default:
-                return number;
+        if (this.movePlayerTo.containsKey(number)) {
+            return this.movePlayerTo.get(number);
         }
+
+        return number;
     }
 }

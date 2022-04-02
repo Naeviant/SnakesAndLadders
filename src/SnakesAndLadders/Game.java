@@ -38,12 +38,6 @@ public class Game {
     private boolean bounceBack;
 
     /**
-     * A map of squares where players are moved to when they land on a square (implements snakes and ladders)
-     * @since 1.1.0
-     */
-    private Map<Integer, Integer> movePlayerTo;
-
-    /**
      * The index in the list of players which holds the player whose turn it currently is.
      * @see #players
      * @since 1.0.0

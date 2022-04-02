@@ -71,11 +71,19 @@ public class GameTest {
             game.addPlayer("Player 2");
             game.start();
 
-            assertTrue(game.getCurrentPlayer().getName().equals("Player 1"));
-            game.takeTurn();
-            assertTrue(game.getCurrentPlayer().getName().equals("Player 2"));
-            game.takeTurn();
-            assertTrue(game.getCurrentPlayer().getName().equals("Player 1"));
+            if (game.getCurrentPlayer().getName().equals("Player 1")) {
+                game.takeTurn();
+                assertTrue(game.getCurrentPlayer().getName().equals("Player 2"));
+                game.takeTurn();
+                assertTrue(game.getCurrentPlayer().getName().equals("Player 1"));
+            } else if (game.getCurrentPlayer().getName().equals("Player 2")) {
+                game.takeTurn();
+                assertTrue(game.getCurrentPlayer().getName().equals("Player 1"));
+                game.takeTurn();
+                assertTrue(game.getCurrentPlayer().getName().equals("Player 2"));
+            } else {
+                fail();
+            }
         } catch (GameInProgressException e) {
             fail(e.getMessage());
         } catch (NotEnoughPlayersException e) {
@@ -99,8 +107,14 @@ public class GameTest {
             game.addPlayer("Player 2");
             game.start();
 
-            assertTrue(game.getCurrentPlayer().getName().equals("Player 1"));
-            game.takeTurn();
+            if (game.getCurrentPlayer().getName().equals("Player 1")) {
+                game.takeTurn();
+            } else if (game.getCurrentPlayer().getName().equals("Player 2")) {
+                game.takeTurn();
+                game.takeTurn();
+            } else {
+                fail();
+            }
         } catch (GameInProgressException e) {
             fail(e.getMessage());
         } catch (NotEnoughPlayersException e) {

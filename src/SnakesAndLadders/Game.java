@@ -1,6 +1,7 @@
 package SnakesAndLadders;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Represents the game of Snakes and Ladders.
@@ -23,6 +24,24 @@ public class Game {
      * @since 1.0.0
      */
     private ArrayList<Player> players;
+
+    /**
+     * If players get a second roll when scoring a six.
+     * @since 1.1.0
+     */
+    private boolean rollAgainOnSix;
+
+    /**
+     * If players bounce back when their roll takes them off the end of the board
+     * @since 1.1.0
+     */
+    private boolean bounceBack;
+
+    /**
+     * A map of squares where players are moved to when they land on a square (implements snakes and ladders)
+     * @since 1.1.0
+     */
+    private Map<Integer, Integer> movePlayerTo;
 
     /**
      * The index in the list of players which holds the player whose turn it currently is.
@@ -60,11 +79,26 @@ public class Game {
     private ArrayList<GameListener> listeners;
 
     /**
-     * Create a new game of Snakes and Ladders.
+     * Create a new game of Snakes and Ladders with the default settings.
      * @since 1.0.0
      */
     public Game() {
-        this.board = new Board();
+        this(false, false);
+    }
+
+    /**
+     * Create a new game of Snakes and Ladders with custom game rules, but default snakes and ladders placement.
+     * @param rollAgainOnSix if players get a second roll when scoring a six.
+     * @param bounceBack if players bounce back when their roll takes them off the end of the board
+     */
+    public Game(boolean rollAgainOnSix, boolean bounceBack) {
+        this(rollAgainOnSix, bounceBack, null);
+    }
+
+    public Game(boolean rollAgainOnSix, boolean bounceBack, Map<Integer, Integer> movePlayerTo) {
+        this.board = new Board(movePlayerTo);
+        this.rollAgainOnSix = rollAgainOnSix;
+        this.bounceBack = bounceBack;
         this.players = new ArrayList<Player>();
         this.currentPlayerIndex = 0;
         this.dice = new Dice();

@@ -1,6 +1,9 @@
 package SnakesAndLadders;
 
+import java.beans.PropertyEditor;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents the board that the game is played on.
@@ -21,8 +24,19 @@ public class Board {
      * Generate a new board.
      * @see #generateSquares()
      * @since 1.0.0
+     * @deprecated
      */
     protected Board() {
+        this.generateSquares();
+    }
+
+    /**
+     * Generate a new board.
+     * @see #generateSquares()
+     * @param movePlayerTo a map of squares where players are moved to when they land on a square (implements snakes and ladders)
+     * @since 1.1.0
+     */
+    protected Board(Map<Integer, Integer> movePlayerTo) {
         this.generateSquares();
     }
 

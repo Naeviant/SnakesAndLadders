@@ -21,16 +21,6 @@ public class Board {
     /**
      * Generate a new board.
      * @see #generateSquares()
-     * @since 1.0.0
-     * @deprecated
-     */
-    protected Board() {
-        this.generateSquares();
-    }
-
-    /**
-     * Generate a new board.
-     * @see #generateSquares()
      * @see java.util.Map
      * @param movePlayerTo a map of squares where players are moved to when they land on a square (implements snakes and ladders)
      * @since 1.1.0

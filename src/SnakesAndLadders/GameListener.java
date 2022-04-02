@@ -58,6 +58,13 @@ public interface GameListener {
     void onPlayerCannotProceed(Player player);
 
     /**
+     * Called whenever a player bounced back off the end of the board.
+     * @param player the player who was bounced back
+     * @see Player
+     */
+    void onPlayerBouncedBack(Player player);
+
+    /**
      * Called whenever a player has a rolled a six and can roll again.
      * @param player the player who will roll again
      * @see Player

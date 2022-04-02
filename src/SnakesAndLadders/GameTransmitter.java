@@ -111,6 +111,21 @@ public final class GameTransmitter {
     }
 
     /**
+     * Notifies listeners that a player bounced back off the end of the board.
+     * @param listeners the list of registered listeners
+     * @param player the player who was bounced back
+     * @see java.util.ArrayList
+     * @see GameListener
+     * @see Player
+     * @since 1.0.0
+     */
+    protected static void transmitPlayerBouncedBack(ArrayList<GameListener> listeners, Player player) {
+        for (GameListener listener : listeners) {
+            listener.onPlayerBouncedBack(player);
+        }
+    }
+
+    /**
      * Notifies listeners that a player is unable to proceed because their dice roll was too high.
      * @param listeners the list of registered listeners
      * @param player the player who will roll again

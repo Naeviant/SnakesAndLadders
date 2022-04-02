@@ -27,13 +27,17 @@ public class Driver implements GameListener {
     public void onPlayerChasedBySnake(Player player, Square squareChasedTo) {
         System.out.println(player + " was chased by a snake to square " + squareChasedTo.getSquareNumber() + ".");
     }
+    
+    public void onPlayerCannotProceed(Player player) {
+        System.out.println(player + "'s roll was too big to proceed.");
+    }
+    
+    public void onPlayerBouncedBack(Player player) {
+        System.out.println(player + "'s roll bounced off the end of the board.");
+    }
 
     public void onPlayerToRollAgain(Player player) {
         System.out.println(player + " can roll again!");
-    }
-
-    public void onPlayerCannotProceed(Player player) {
-        System.out.println(player + "'s roll was too big to proceed.");
     }
 
     public void onPlayerEndsTurn(Player player) {

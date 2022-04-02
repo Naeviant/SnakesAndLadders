@@ -222,7 +222,7 @@ public class Game {
 
         int endSquareIndex = calculateNextSquareIndex(diceRoll);
 
-        if (!this.board.isIndexInBounds(endSquareIndex + 1)) {
+        if (!this.bounceBack && !this.board.isIndexInBounds(endSquareIndex + 1)) {
             GameTransmitter.transmitPlayerCannotProceed(this.listeners, player);
             this.nextPlayer();
             return;
@@ -255,7 +255,15 @@ public class Game {
         Square startSquare = player.getCurrentSquare();
         int startSquareIndex = this.board.getSquares().indexOf(startSquare);
         
+        int maxIndex = this.board.getSquares().size() - 1;
         int endSquareIndex = startSquareIndex + diceRoll;
+
+        if (this.bounceBack && endSquareIndex > maxIndex) {
+            int difference = endSquareIndex = maxIndex;
+            endSquareIndex = endSquareIndex - (difference * 2);
+            GameTransmitter.transmitPlayerBouncedBack(listeners, player);
+        }
+
         return endSquareIndex;
     }
 

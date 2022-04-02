@@ -201,19 +201,26 @@ public class Game {
 
         GameTransmitter.transmitPlayerStartsTurn(this.listeners, player);
 
-        movePlayer();
+        int diceRoll = this.dice.rollDice();
+        GameTransmitter.transmitPlayerRollsDice(this.listeners, player, diceRoll);
 
-        this.nextPlayer();
+        this.movePlayer(diceRoll);
+
+        if (!this.rollAgainOnSix || diceRoll < 6) {
+            this.nextPlayer();
+        } else {
+            GameTransmitter.transmitPlayerToRollAgain(listeners, player);
+        }
     }
 
     /**
      * Move the player.
      * @since 1.0.0
      */
-    private void movePlayer() {
+    private void movePlayer(int diceRoll) {
         Player player = this.getCurrentPlayer();
 
-        int endSquareIndex = calculateNextSquareIndex();
+        int endSquareIndex = calculateNextSquareIndex(diceRoll);
 
         if (!this.board.isIndexInBounds(endSquareIndex + 1)) {
             GameTransmitter.transmitPlayerCannotProceed(this.listeners, player);
@@ -233,7 +240,7 @@ public class Game {
         }
 
         if (endSquareType != SquareType.EMPTY) {
-            handleSnakesAndLadders();
+            this.handleSnakesAndLadders();
         }
     }
 
@@ -242,14 +249,11 @@ public class Game {
      * @return the index of the square which the player should move to next
      * @since 1.0.0
      */
-    private int calculateNextSquareIndex() {
+    private int calculateNextSquareIndex(int diceRoll) {
         Player player = this.getCurrentPlayer();
 
         Square startSquare = player.getCurrentSquare();
         int startSquareIndex = this.board.getSquares().indexOf(startSquare);
-
-        int diceRoll = this.dice.rollDice();
-        GameTransmitter.transmitPlayerRollsDice(this.listeners, player, diceRoll);
         
         int endSquareIndex = startSquareIndex + diceRoll;
         return endSquareIndex;

@@ -58,6 +58,13 @@ public interface GameListener {
     void onPlayerCannotProceed(Player player);
 
     /**
+     * Called whenever a player has a rolled a six and can roll again.
+     * @param player the player who will roll again
+     * @see Player
+     */
+    void onPlayerToRollAgain(Player player);
+
+    /**
      * Called whenever a player ends their turn.
      * @param player the player whose turn has ended
      * @see Player

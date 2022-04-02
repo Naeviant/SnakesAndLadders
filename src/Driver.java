@@ -28,6 +28,10 @@ public class Driver implements GameListener {
         System.out.println(player + " was chased by a snake to square " + squareChasedTo.getSquareNumber() + ".");
     }
 
+    public void onPlayerToRollAgain(Player player) {
+        System.out.println(player + " can roll again!");
+    }
+
     public void onPlayerCannotProceed(Player player) {
         System.out.println(player + "'s roll was too big to proceed.");
     }

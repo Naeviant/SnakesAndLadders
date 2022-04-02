@@ -111,6 +111,21 @@ public final class GameTransmitter {
     }
 
     /**
+     * Notifies listeners that a player is unable to proceed because their dice roll was too high.
+     * @param listeners the list of registered listeners
+     * @param player the player who will roll again
+     * @see java.util.ArrayList
+     * @see GameListener
+     * @see Player
+     * @since 1.1.0
+     */
+    protected static void transmitPlayerToRollAgain(ArrayList<GameListener> listeners, Player player) {
+        for (GameListener listener : listeners) {
+            listener.onPlayerToRollAgain(player);
+        }
+    }
+
+    /**
      * Notifies listeners that a player has ended their turn.
      * @param listeners the list of registered listeners
      * @param player the player whose turn has ended

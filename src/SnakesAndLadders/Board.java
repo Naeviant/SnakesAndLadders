@@ -3,6 +3,7 @@ package SnakesAndLadders;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Represents the board that the game is played on.
@@ -31,9 +32,10 @@ public class Board {
      * @see #generateSquares()
      * @see java.util.Map
      * @param movePlayerTo a map of squares where players are moved to when they land on a square (implements snakes and ladders)
+     * @throws InvalidSnakeOrLadderException if a given snake or ladder is invalid
      * @since 1.1.0
      */
-    protected Board(Map<Integer, Integer> movePlayerTo) {
+    protected Board(Map<Integer, Integer> movePlayerTo) throws InvalidSnakeOrLadderException {
         if (movePlayerTo == null) {
             this.movePlayerTo = new HashMap<Integer, Integer>();
             this.movePlayerTo.put(4, 56);
@@ -49,6 +51,23 @@ public class Board {
             this.movePlayerTo.put(96, 42);
         } else {
             this.movePlayerTo = movePlayerTo;
+
+            for (Entry<Integer, Integer> e : this.movePlayerTo.entrySet()) {
+                Integer k = e.getKey();
+                Integer v = e.getValue();
+
+                if (k == v) {
+                    throw new InvalidSnakeOrLadderException("A snake or ladder cannot start and end in the same place.");
+                }
+
+                if (k < 2 || v < 2) {
+                    throw new InvalidSnakeOrLadderException("A snake or ladder cannot start or end before square 2.");
+                }
+
+                if (k > 98 || v > 98) {
+                    throw new InvalidSnakeOrLadderException("A snake or ladder cannot start or end before after square 98.");
+                }
+            }
         }
 
         this.generateSquares();

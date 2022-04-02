@@ -1,9 +1,13 @@
 package SnakesAndLadders;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +17,11 @@ public class BoardTest {
     
     @Before
     public void setUp() {
-        board = new Board(null);
+        try {
+            board = new Board(null);
+        } catch (InvalidSnakeOrLadderException e) {
+            fail();
+        }
     }
     
     @Test
@@ -65,5 +73,69 @@ public class BoardTest {
                 assertTrue(square.getType() == SquareType.EMPTY);
             }
         }
+    }
+
+    @Test
+    public void testValidCustomLadder() {
+        Map<Integer, Integer> snakesAndLadders = new HashMap<Integer, Integer>();
+        snakesAndLadders.put(25, 50);
+        
+        try {
+            new Board(snakesAndLadders);
+        } catch (InvalidSnakeOrLadderException e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void testValidCustomSnake() {
+        Map<Integer, Integer> snakesAndLadders = new HashMap<Integer, Integer>();
+        snakesAndLadders.put(75, 50);
+        
+        try {
+            new Board(snakesAndLadders);
+        } catch (InvalidSnakeOrLadderException e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void testCustomSnakeOrLadderWithSameStartAndEnd() {
+        Map<Integer, Integer> snakesAndLadders = new HashMap<Integer, Integer>();
+        snakesAndLadders.put(50, 50);
+
+        assertThrows(InvalidSnakeOrLadderException.class, () -> { new Board(snakesAndLadders); });
+    }
+
+    @Test
+    public void testCustomSnakeOrLadderWithStartBeforeSquare2() {
+        Map<Integer, Integer> snakesAndLadders = new HashMap<Integer, Integer>();
+        snakesAndLadders.put(1, 50);
+
+        assertThrows(InvalidSnakeOrLadderException.class, () -> { new Board(snakesAndLadders); });
+    }
+
+    @Test
+    public void testCustomSnakeOrLadderWithEndBeforeSquare2() {
+        Map<Integer, Integer> snakesAndLadders = new HashMap<Integer, Integer>();
+        snakesAndLadders.put(50, 1);
+
+        assertThrows(InvalidSnakeOrLadderException.class, () -> { new Board(snakesAndLadders); });
+    }
+
+    @Test
+    public void testCustomSnakeOrLadderWithStartAfterSquare98() {
+        Map<Integer, Integer> snakesAndLadders = new HashMap<Integer, Integer>();
+        snakesAndLadders.put(99, 50);
+
+        assertThrows(InvalidSnakeOrLadderException.class, () -> { new Board(snakesAndLadders); });
+    }
+
+    @Test
+    public void testCustomSnakeOrLadderWithEndAfterSquare98() {
+        Map<Integer, Integer> snakesAndLadders = new HashMap<Integer, Integer>();
+        snakesAndLadders.put(50, 99);
+
+        assertThrows(InvalidSnakeOrLadderException.class, () -> { new Board(snakesAndLadders); });
     }
 }

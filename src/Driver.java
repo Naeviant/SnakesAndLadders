@@ -3,6 +3,7 @@ import SnakesAndLadders.GameHasWinnerException;
 import SnakesAndLadders.GameInProgressException;
 import SnakesAndLadders.GameListener;
 import SnakesAndLadders.GameNotStartedException;
+import SnakesAndLadders.InvalidSnakeOrLadderException;
 import SnakesAndLadders.NotEnoughPlayersException;
 import SnakesAndLadders.Player;
 import SnakesAndLadders.Square;
@@ -62,6 +63,8 @@ public class Driver implements GameListener {
             while (!game.hasBeenWon()) {
                 game.takeTurn();
             }
+        } catch (InvalidSnakeOrLadderException e) {
+            e.printStackTrace();
         } catch (NotEnoughPlayersException e) {
             e.printStackTrace();
         } catch (GameNotStartedException e) {

@@ -13,7 +13,9 @@ public class GameTest {
     
     @Before
     public void setUp() {
-        game = new Game();
+        try {
+            game = new Game();
+        } catch (InvalidSnakeOrLadderException e) {}
     }
 
     @Test

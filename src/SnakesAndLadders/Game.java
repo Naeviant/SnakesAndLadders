@@ -74,9 +74,10 @@ public class Game {
 
     /**
      * Create a new game of Snakes and Ladders with the default settings.
+     * @throws InvalidSnakeOrLadderException if a given snake or ladder is invalid
      * @since 1.0.0
      */
-    public Game() {
+    public Game() throws InvalidSnakeOrLadderException {
         this(false, false);
     }
 
@@ -84,9 +85,10 @@ public class Game {
      * Create a new game of Snakes and Ladders with custom game rules, but default snakes and ladders placement.
      * @param rollAgainOnSix if players get a second roll when scoring a six.
      * @param bounceBack if players bounce back when their roll takes them off the end of the board
+     * @throws InvalidSnakeOrLadderException if a given snake or ladder is invalid
      * @since 1.1.0
      */
-    public Game(boolean rollAgainOnSix, boolean bounceBack) {
+    public Game(boolean rollAgainOnSix, boolean bounceBack) throws InvalidSnakeOrLadderException {
         this(rollAgainOnSix, bounceBack, null);
     }
 
@@ -96,9 +98,10 @@ public class Game {
      * @param rollAgainOnSix if players get a second roll when scoring a six.
      * @param bounceBack if players bounce back when their roll takes them off the end of the board
      * @param movePlayerTo a map of squares where players are moved to when they land on a square (implements snakes and ladders)
+     * @throws InvalidSnakeOrLadderException if a given snake or ladder is invalid
      * @since 1.1.0
      */
-    public Game(boolean rollAgainOnSix, boolean bounceBack, Map<Integer, Integer> movePlayerTo) {
+    public Game(boolean rollAgainOnSix, boolean bounceBack, Map<Integer, Integer> movePlayerTo) throws InvalidSnakeOrLadderException {
         this.board = new Board(movePlayerTo);
         this.rollAgainOnSix = rollAgainOnSix;
         this.bounceBack = bounceBack;

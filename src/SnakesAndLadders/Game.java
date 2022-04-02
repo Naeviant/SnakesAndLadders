@@ -253,7 +253,6 @@ public class Game {
 
         if (!this.bounceBack && !this.board.isIndexInBounds(endSquareIndex + 1)) {
             GameTransmitter.transmitPlayerCannotProceed(this.listeners, player);
-            this.nextPlayer();
             return;
         }
 
@@ -288,7 +287,7 @@ public class Game {
         int endSquareIndex = startSquareIndex + diceRoll;
 
         if (this.bounceBack && endSquareIndex > maxIndex) {
-            int difference = endSquareIndex = maxIndex;
+            int difference = endSquareIndex - maxIndex;
             endSquareIndex = endSquareIndex - (difference * 2);
             GameTransmitter.transmitPlayerBouncedBack(listeners, player);
         }

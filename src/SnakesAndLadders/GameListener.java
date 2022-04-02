@@ -1,12 +1,36 @@
 package SnakesAndLadders;
 
+import java.util.ArrayList;
+
 /**
  * Defines the methods which a class must implement to use the SnakesAndLadders package.
  * @author Sam Hirst
- * @version 1.0.0
+ * @version 1.1.0
  * @since 1.0.0
  */
 public interface GameListener {
+    /**
+     * Called when players are rolling some dice to determine the order of play
+     * @param numberOfDice the number of dice each player will roll
+     */
+    void onDecidingPlayerOrder(int rollResult);
+
+    /**
+     * Called when the order of play has been decided
+     * @param playerOrder the list of players in the order that they will play
+     * @see ArrayList
+     * @see Player
+     */
+    void onDecidedPlayerOrder(ArrayList<Player> playerOrder);
+
+    /**
+     * Called whenever a player rolls the dice to determine the order of play
+     * @param player the player who rolled the dice
+     * @param rollResult the result of the dice roll
+     * @see Player
+     */
+    void onPlayerInitialRoll(Player player, int rollResult);
+
     /**
      * Called whenever a player starts their turn.
      * @param player the player whose turn has started
@@ -56,6 +80,20 @@ public interface GameListener {
      * @see Player
      */
     void onPlayerCannotProceed(Player player);
+
+    /**
+     * Called whenever a player bounced back off the end of the board.
+     * @param player the player who was bounced back
+     * @see Player
+     */
+    void onPlayerBouncedBack(Player player);
+
+    /**
+     * Called whenever a player has a rolled a six and can roll again.
+     * @param player the player who will roll again
+     * @see Player
+     */
+    void onPlayerToRollAgain(Player player);
 
     /**
      * Called whenever a player ends their turn.

@@ -1,11 +1,12 @@
 package SnakesAndLadders;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Represents the game of Snakes and Ladders.
  * @author Sam Hirst
- * @version 1.0.0
+ * @version 1.1.0
  * @since 1.0.0
  */
 public class Game {
@@ -23,6 +24,18 @@ public class Game {
      * @since 1.0.0
      */
     private ArrayList<Player> players;
+
+    /**
+     * If players get a second roll when scoring a six.
+     * @since 1.1.0
+     */
+    private boolean rollAgainOnSix;
+
+    /**
+     * If players bounce back when their roll takes them off the end of the board
+     * @since 1.1.0
+     */
+    private boolean bounceBack;
 
     /**
      * The index in the list of players which holds the player whose turn it currently is.
@@ -60,11 +73,38 @@ public class Game {
     private ArrayList<GameListener> listeners;
 
     /**
-     * Create a new game of Snakes and Ladders.
+     * Create a new game of Snakes and Ladders with the default settings.
+     * @throws InvalidSnakeOrLadderException if a given snake or ladder is invalid
      * @since 1.0.0
      */
-    public Game() {
-        this.board = new Board();
+    public Game() throws InvalidSnakeOrLadderException {
+        this(false, false);
+    }
+
+    /**
+     * Create a new game of Snakes and Ladders with custom game rules, but default snakes and ladders placement.
+     * @param rollAgainOnSix if players get a second roll when scoring a six.
+     * @param bounceBack if players bounce back when their roll takes them off the end of the board
+     * @throws InvalidSnakeOrLadderException if a given snake or ladder is invalid
+     * @since 1.1.0
+     */
+    public Game(boolean rollAgainOnSix, boolean bounceBack) throws InvalidSnakeOrLadderException {
+        this(rollAgainOnSix, bounceBack, null);
+    }
+
+    /**
+     * Create a new game of Snakes and Ladders with custom game rules and custom snakes and ladders placement.
+     * @see java.util.Map
+     * @param rollAgainOnSix if players get a second roll when scoring a six.
+     * @param bounceBack if players bounce back when their roll takes them off the end of the board
+     * @param movePlayerTo a map of squares where players are moved to when they land on a square (implements snakes and ladders)
+     * @throws InvalidSnakeOrLadderException if a given snake or ladder is invalid
+     * @since 1.1.0
+     */
+    public Game(boolean rollAgainOnSix, boolean bounceBack, Map<Integer, Integer> movePlayerTo) throws InvalidSnakeOrLadderException {
+        this.board = new Board(movePlayerTo);
+        this.rollAgainOnSix = rollAgainOnSix;
+        this.bounceBack = bounceBack;
         this.players = new ArrayList<Player>();
         this.currentPlayerIndex = 0;
         this.dice = new Dice();
@@ -137,6 +177,38 @@ public class Game {
         if (this.isInProgress()) {
             throw new GameInProgressException("The game has already started.");
         }
+
+        int numberOfDice = (int) Math.ceil((this.getAllPlayers().size() - 1) / 5.0);
+
+        GameTransmitter.transmitDecidingPlayerOrder(listeners, numberOfDice);
+
+        int maxRoll = numberOfDice * 6;
+        Player[] order = new Player[maxRoll];
+        Dice dice = new Dice();
+
+        for (Player player : this.getAllPlayers()) {
+            while (true) {
+                int roll = 0;
+                for (int i = 0; i < numberOfDice; i++) {
+                    roll += dice.rollDice();
+                }
+
+                if (order[roll - 1] == null) {
+                    order[roll - 1] = player;
+                    GameTransmitter.transmitPlayerInitialRoll(listeners, player, roll);
+                    break;
+                }
+            }
+        }
+
+        this.players.clear();
+        for (int i = maxRoll - 1; i >= 0; i--) {
+            if (order[i] != null) {
+                this.players.add(order[i]);
+            }
+        }
+
+        GameTransmitter.trasmitDecidedPlayerOrder(listeners, this.players);
         this.inProgress = true;
     }
 
@@ -158,23 +230,29 @@ public class Game {
 
         GameTransmitter.transmitPlayerStartsTurn(this.listeners, player);
 
-        movePlayer();
+        int diceRoll = this.dice.rollDice();
+        GameTransmitter.transmitPlayerRollsDice(this.listeners, player, diceRoll);
 
-        this.nextPlayer();
+        this.movePlayer(diceRoll);
+
+        if (!this.rollAgainOnSix || diceRoll < 6) {
+            this.nextPlayer();
+        } else {
+            GameTransmitter.transmitPlayerToRollAgain(listeners, player);
+        }
     }
 
     /**
      * Move the player.
      * @since 1.0.0
      */
-    private void movePlayer() {
+    private void movePlayer(int diceRoll) {
         Player player = this.getCurrentPlayer();
 
-        int endSquareIndex = calculateNextSquareIndex();
+        int endSquareIndex = calculateNextSquareIndex(diceRoll);
 
-        if (!this.board.isIndexInBounds(endSquareIndex + 1)) {
+        if (!this.bounceBack && !this.board.isIndexInBounds(endSquareIndex + 1)) {
             GameTransmitter.transmitPlayerCannotProceed(this.listeners, player);
-            this.nextPlayer();
             return;
         }
 
@@ -190,7 +268,7 @@ public class Game {
         }
 
         if (endSquareType != SquareType.EMPTY) {
-            handleSnakesAndLadders();
+            this.handleSnakesAndLadders();
         }
     }
 
@@ -199,16 +277,21 @@ public class Game {
      * @return the index of the square which the player should move to next
      * @since 1.0.0
      */
-    private int calculateNextSquareIndex() {
+    private int calculateNextSquareIndex(int diceRoll) {
         Player player = this.getCurrentPlayer();
 
         Square startSquare = player.getCurrentSquare();
         int startSquareIndex = this.board.getSquares().indexOf(startSquare);
-
-        int diceRoll = this.dice.rollDice();
-        GameTransmitter.transmitPlayerRollsDice(this.listeners, player, diceRoll);
         
+        int maxIndex = this.board.getSquares().size() - 1;
         int endSquareIndex = startSquareIndex + diceRoll;
+
+        if (this.bounceBack && endSquareIndex > maxIndex) {
+            int difference = endSquareIndex - maxIndex;
+            endSquareIndex = endSquareIndex - (difference * 2);
+            GameTransmitter.transmitPlayerBouncedBack(listeners, player);
+        }
+
         return endSquareIndex;
     }
 

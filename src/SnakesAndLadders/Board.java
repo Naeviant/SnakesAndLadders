@@ -1,11 +1,14 @@
 package SnakesAndLadders;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Represents the board that the game is played on.
  * @author Sam Hirst
- * @version 1.0.0
+ * @version 1.1.0
  * @since 1.0.0
  * {@link java.util.ArrayList}.
  */
@@ -18,11 +21,55 @@ public class Board {
     private ArrayList<Square> squares;
 
     /**
+     * A map of squares where players are moved to when they land on a square (implements snakes and ladders)
+     * @see java.util.Map
+     * @since 1.1.0
+     */
+    private Map<Integer, Integer> movePlayerTo;
+
+    /**
      * Generate a new board.
      * @see #generateSquares()
-     * @since 1.0.0
+     * @see java.util.Map
+     * @param movePlayerTo a map of squares where players are moved to when they land on a square (implements snakes and ladders)
+     * @throws InvalidSnakeOrLadderException if a given snake or ladder is invalid
+     * @since 1.1.0
      */
-    protected Board() {
+    protected Board(Map<Integer, Integer> movePlayerTo) throws InvalidSnakeOrLadderException {
+        if (movePlayerTo == null) {
+            this.movePlayerTo = new HashMap<Integer, Integer>();
+            this.movePlayerTo.put(4, 56);
+            this.movePlayerTo.put(12, 50);
+            this.movePlayerTo.put(14, 56);
+            this.movePlayerTo.put(22, 58);
+            this.movePlayerTo.put(37, 3);
+            this.movePlayerTo.put(41, 79);
+            this.movePlayerTo.put(47, 16);
+            this.movePlayerTo.put(54, 88);
+            this.movePlayerTo.put(75, 32);
+            this.movePlayerTo.put(94, 71);
+            this.movePlayerTo.put(96, 42);
+        } else {
+            this.movePlayerTo = movePlayerTo;
+
+            for (Entry<Integer, Integer> e : this.movePlayerTo.entrySet()) {
+                Integer k = e.getKey();
+                Integer v = e.getValue();
+
+                if (k == v) {
+                    throw new InvalidSnakeOrLadderException("A snake or ladder cannot start and end in the same place.");
+                }
+
+                if (k < 2 || v < 2) {
+                    throw new InvalidSnakeOrLadderException("A snake or ladder cannot start or end before square 2.");
+                }
+
+                if (k > 98 || v > 98) {
+                    throw new InvalidSnakeOrLadderException("A snake or ladder cannot start or end before after square 98.");
+                }
+            }
+        }
+
         this.generateSquares();
     }
 
@@ -95,31 +142,10 @@ public class Board {
      * @since 1.0.0
      */
     private int getMovePlayerTo(int number) {
-        switch (number) {
-            case 4:
-                return 56;
-            case 12:
-                return 50;
-            case 14:
-                return 55;
-            case 22:
-                return 58;
-            case 37:
-                return 3;
-            case 41:
-                return 79;
-            case 47:
-                return 16;
-            case 54:
-                return 88;
-            case 75:
-                return 32;
-            case 94:
-                return 71;
-            case 96:
-                return 42;
-            default:
-                return number;
+        if (this.movePlayerTo.containsKey(number)) {
+            return this.movePlayerTo.get(number);
         }
+
+        return number;
     }
 }

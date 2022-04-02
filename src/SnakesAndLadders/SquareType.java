@@ -3,7 +3,7 @@ package SnakesAndLadders;
 /**
  * Types of squares.
  * @author Sam Hirst
- * @version 1.0.0
+ * @version 1.1.0
  * @see Square
  * @since 1.0.0
  */
